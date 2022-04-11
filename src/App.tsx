@@ -1,10 +1,5 @@
 import {Slider} from './components/Slider';
 
-export interface ISliderItem {
-   img: string;
-   text: string;
-}
-
 export const App: React.FC = () => {
    const slides = [
       {

@@ -26,13 +26,13 @@ export const Flex = styled.div<FlexType>`
    margin-top: ${({mt}) => mt || '0'};
 `;
 
-export const SliderBody = styled(Flex)`
-   width: 1200px;
+export const SliderBodyStyles = styled(Flex)`
+   width: 1000px;
 `;
 
 export const SliderWindow = styled(Flex)<{url?: string}>`
    position: relative;
-   width: 1000px;
+   width: 100%;
    height: 350px;
    margin-top: 30px;
    overflow: hidden;

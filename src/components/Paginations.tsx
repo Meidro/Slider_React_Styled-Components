@@ -1,5 +1,5 @@
-import {ISliderItem} from '../App';
 import {Flex, PaginatorItem} from '../styles';
+import {ISliderItem} from './Slider';
 
 export interface IPaginationsProps {
    slides: ISliderItem[];

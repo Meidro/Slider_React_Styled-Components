@@ -1,15 +1,9 @@
 import {SliderWindow, SlideText} from '../styles';
 import {Arrow} from './Arrow';
-import {IPaginationsProps} from './Paginations';
 import {Pags} from './Pags';
+import {ISliderBodyProps} from './SliderBody';
 
-interface ISliderItemProps extends IPaginationsProps {
-   currentImg: number;
-   loop?: boolean;
-   navs?: boolean;
-   setMouseEnter: (flag: boolean) => void;
-   stopMouseHover?: boolean;
-}
+interface ISliderItemProps extends ISliderBodyProps {}
 
 export const SliderItem: React.FC<ISliderItemProps> = (props) => {
    return (

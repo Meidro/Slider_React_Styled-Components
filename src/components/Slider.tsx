@@ -1,10 +1,13 @@
 import {useEffect, useState} from 'react';
-import {ISliderItem} from '../App';
-import {Flex, SliderBody} from '../styles';
-import {Paginations} from './Paginations';
-import {SliderItem} from './SliderItem';
+import {Flex, SliderBodyStyles} from '../styles';
+import {SliderBody} from './SliderBody';
 
-interface ISliderProps {
+export interface ISliderItem {
+   img: string;
+   text: string;
+}
+
+export interface ISliderProps {
    slides: ISliderItem[];
    loop?: boolean;
    navs?: boolean;
@@ -40,16 +43,14 @@ export const Slider: React.FC<ISliderProps> = (props) => {
 
    return (
       <Flex justify='center'>
-         <SliderBody direction='column' align='center'>
-            <SliderItem
-               {...props}
+         <SliderBodyStyles direction='column' align='center'>
+            <SliderBody
                currentImg={currentImg}
                setCurrentImg={setCurrentImg}
                setMouseEnter={setMouseEnter}
-               stopMouseHover={props.stopMouseHover}
+               {...props}
             />
-            {props.pags && <Paginations {...props} currentImg={currentImg} setCurrentImg={setCurrentImg} />}
-         </SliderBody>
+         </SliderBodyStyles>
       </Flex>
    );
 };
