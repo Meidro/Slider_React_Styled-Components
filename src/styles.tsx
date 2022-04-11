@@ -37,6 +37,9 @@ export const SliderWindow = styled(Flex)<{url?: string}>`
    margin-top: 30px;
    overflow: hidden;
    background-image: ${({url}) => url || ''};
+   background-repeat: no-repeat;
+   background-size: cover;
+   background-position: center;
 `;
 
 export const PaginatorItem = styled(Flex)<{color: string}>`
