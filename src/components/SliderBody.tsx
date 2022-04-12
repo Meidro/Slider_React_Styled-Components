@@ -18,6 +18,7 @@ export const SliderBody: React.FC<ISliderBodyProps> = (props) => {
          align='center'
       >
          <SliderItem {...props} />
+
          {props.pags && <Paginations {...props} />}
       </SliderBodyStyles>
    );

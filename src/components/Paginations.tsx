@@ -1,7 +1,7 @@
 import {Flex, PaginatorItem} from '../styles';
 import {ISliderItem} from './Slider';
 
-export interface IPaginationsProps {
+interface IPaginationsProps {
    slides: ISliderItem[];
    currentImg: number;
    setCurrentImg: (num: number | ((prev: number) => number)) => void;

@@ -1,9 +1,11 @@
 import {FaAngleLeft, FaAngleRight} from 'react-icons/fa';
-import {IPaginationsProps} from './Paginations';
+import {ISliderItem} from './Slider';
 
-interface IArrowProps extends IPaginationsProps {
+interface IArrowProps {
+   slides: ISliderItem[];
    direction: string;
    loop?: boolean;
+   setCurrentImg: (num: number | ((prev: number) => number)) => void;
 }
 
 export const Arrow: React.FC<IArrowProps> = ({direction, setCurrentImg, slides, loop}) => {

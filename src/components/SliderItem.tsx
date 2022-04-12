@@ -3,9 +3,7 @@ import {Arrow} from './Arrow';
 import {Pags} from './Pags';
 import {ISliderBodyProps} from './SliderBody';
 
-interface ISliderItemProps extends ISliderBodyProps {}
-
-export const SliderItem: React.FC<ISliderItemProps> = (props) => {
+export const SliderItem: React.FC<ISliderBodyProps> = (props) => {
    return (
       <SliderWindow
          onMouseEnter={() => props.stopMouseHover && props.setMouseEnter(true)}
@@ -15,8 +13,11 @@ export const SliderItem: React.FC<ISliderItemProps> = (props) => {
          url={`url(${props.slides[props.currentImg].img})`}
       >
          <Pags currentImg={props.currentImg} countImg={props.slides.length} />
+
          {props.navs && <Arrow {...props} direction='left' />}
+
          <SlideText>{props.slides[props.currentImg].text}</SlideText>
+
          {props.navs && <Arrow {...props} direction='right' />}
       </SliderWindow>
    );
