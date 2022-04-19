@@ -1,27 +1,28 @@
+import React from 'react';
+import {useCallback} from 'react';
 import {FaAngleLeft, FaAngleRight} from 'react-icons/fa';
-import {ISliderItem} from './Slider';
 
-interface IArrowProps {
-   slides: ISliderItem[];
+interface ArrowProps {
+   lastImgNumber: number;
    direction: string;
    loop?: boolean;
-   setCurrentImg: (num: number | ((prev: number) => number)) => void;
+   setCurrentImgNumber: (num: number | ((prev: number) => number)) => void;
 }
 
-export const Arrow: React.FC<IArrowProps> = ({direction, setCurrentImg, slides, loop}) => {
-   const onLeftClick = () => {
-      setCurrentImg((prev) => {
-         if (prev === 0) return loop ? slides.length - 1 : prev;
-         return prev - 1;
+export const Arrow = React.memo(({direction, setCurrentImgNumber, lastImgNumber, loop}: ArrowProps) => {
+   const onLeftClick = useCallback(() => {
+      setCurrentImgNumber((numberImgActual) => {
+         if (numberImgActual > 0) return numberImgActual - 1;
+         return loop ? lastImgNumber : numberImgActual;
       });
-   };
+   }, [lastImgNumber, setCurrentImgNumber, loop]);
 
-   const onRightClick = () => {
-      setCurrentImg((prev) => {
-         if (prev === slides.length - 1) return loop ? 0 : prev;
-         return prev + 1;
+   const onRightClick = useCallback(() => {
+      setCurrentImgNumber((numberImgActual) => {
+         if (numberImgActual < lastImgNumber) return numberImgActual + 1;
+         return loop ? 0 : numberImgActual;
       });
-   };
+   }, [lastImgNumber, setCurrentImgNumber, loop]);
 
    return (
       <div>
@@ -32,4 +33,4 @@ export const Arrow: React.FC<IArrowProps> = ({direction, setCurrentImg, slides, 
          )}
       </div>
    );
-};
+});

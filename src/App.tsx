@@ -1,6 +1,6 @@
 import {Slider} from './components/Slider';
 
-export const App: React.FC = () => {
+export const App = () => {
    const slides = [
       {
          img: 'https://www.w3schools.com/howto/img_nature_wide.jpg',

@@ -1,14 +1,15 @@
-import {useEffect, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {Flex, SliderBodyStyles} from '../styles';
-import {SliderBody} from './SliderBody';
+import {Paginations} from './Paginations';
+import {SliderItem} from './SliderItem';
 
-export interface ISliderItem {
+export interface Slide {
    img: string;
    text: string;
 }
 
-export interface ISliderProps {
-   slides: ISliderItem[];
+interface SliderProps {
+   slides: Slide[];
    loop?: boolean;
    navs?: boolean;
    pags?: boolean;
@@ -17,39 +18,55 @@ export interface ISliderProps {
    stopMouseHover?: boolean;
 }
 
-export const Slider: React.FC<ISliderProps> = (props) => {
-   const [currentImg, setCurrentImg] = useState(0);
+export const Slider = ({slides, auto, delay, loop, navs, pags, stopMouseHover}: SliderProps) => {
+   const [currentImgNumber, setCurrentImgNumber] = useState(0);
 
-   const [mouseEnter, setMouseEnter] = useState(false);
+   const [mouseOut, setMouseOut] = useState(true);
 
-   const tick = () => {
-      setCurrentImg((prev) => {
-         if (prev === props.slides.length - 1) return 0;
+   const tick = useCallback(() => {
+      setCurrentImgNumber((prev) => {
+         if (prev === slides.length - 1) return 0;
          return prev + 1;
       });
-   };
+   }, [slides.length]);
 
    useEffect(() => {
       let interval: NodeJS.Timeout;
-      if (props.delay && props.auto && !mouseEnter) {
-         interval = setInterval(() => tick(), props.delay * 1000);
-      } else if (props.auto && !mouseEnter) {
-         interval = setInterval(() => tick(), 5000);
+
+      if (auto && mouseOut) {
+         if (delay) {
+            interval = setInterval(() => tick(), delay * 1000);
+         } else {
+            interval = setInterval(() => tick(), 5000);
+         }
       }
+
       return () => {
          clearInterval(interval);
       };
-   }, [mouseEnter]);
+   }, [mouseOut, auto, delay, tick]);
+
+   const onMouseHover = useCallback(() => {
+      stopMouseHover && setMouseOut((actual) => !actual);
+   }, [stopMouseHover]);
 
    return (
       <Flex justify='center'>
-         <SliderBodyStyles direction='column' align='center'>
-            <SliderBody
-               currentImg={currentImg}
-               setCurrentImg={setCurrentImg}
-               setMouseEnter={setMouseEnter}
-               {...props}
+         <SliderBodyStyles onMouseEnter={onMouseHover} onMouseLeave={onMouseHover} direction='column' align='center'>
+            <SliderItem
+               slides={slides}
+               currentImgNumber={currentImgNumber}
+               setCurrentImgNumber={setCurrentImgNumber}
+               navs={navs}
+               loop={loop}
             />
+            {pags && (
+               <Paginations
+                  slides={slides}
+                  currentImgNumber={currentImgNumber}
+                  setCurrentImgNumber={setCurrentImgNumber}
+               />
+            )}
          </SliderBodyStyles>
       </Flex>
    );

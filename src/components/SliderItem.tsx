@@ -1,24 +1,41 @@
-import {SliderWindow, SlideText} from '../styles';
+import React from 'react';
+import {PagsText, SliderWindow, SlideText} from '../styles';
 import {Arrow} from './Arrow';
-import {Pags} from './Pags';
-import {ISliderBodyProps} from './SliderBody';
+import {Slide} from './Slider';
 
-export const SliderItem: React.FC<ISliderBodyProps> = (props) => {
+interface SliderItemProps {
+   slides: Slide[];
+   navs?: boolean;
+   currentImgNumber: number;
+   loop?: boolean;
+   setCurrentImgNumber: (num: number | ((prev: number) => number)) => void;
+}
+
+export const SliderItem = React.memo(({navs, currentImgNumber, slides, setCurrentImgNumber, loop}: SliderItemProps) => {
    return (
       <SliderWindow
-         onMouseEnter={() => props.stopMouseHover && props.setMouseEnter(true)}
-         onMouseLeave={() => props.stopMouseHover && props.setMouseEnter(false)}
          align='center'
-         justify={props.navs ? 'space-between' : 'center'}
-         url={`url(${props.slides[props.currentImg].img})`}
+         justify={navs ? 'space-between' : 'center'}
+         url={`url(${slides[currentImgNumber].img})`}
       >
-         <Pags currentImg={props.currentImg} countImg={props.slides.length} />
-
-         {props.navs && <Arrow {...props} direction='left' />}
-
-         <SlideText>{props.slides[props.currentImg].text}</SlideText>
-
-         {props.navs && <Arrow {...props} direction='right' />}
+         <PagsText>{`${currentImgNumber + 1}/${slides.length}`}</PagsText>
+         {navs && (
+            <Arrow
+               lastImgNumber={slides.length - 1}
+               setCurrentImgNumber={setCurrentImgNumber}
+               loop={loop}
+               direction='left'
+            />
+         )}
+         <SlideText>{slides[currentImgNumber].text}</SlideText>
+         {navs && (
+            <Arrow
+               lastImgNumber={slides.length - 1}
+               setCurrentImgNumber={setCurrentImgNumber}
+               loop={loop}
+               direction='right'
+            />
+         )}
       </SliderWindow>
    );
-};
+});
